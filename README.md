@@ -252,6 +252,7 @@ sections = {lualine_a = {'mode'}}
 
 #### Available components
 
+- `altfile` (shows the current alternate `#` buffer)
 - `branch` (git branch)
 - `buffers` (shows currently available buffers)
 - `diagnostics` (diagnostics count from your preferred source)
@@ -501,6 +502,35 @@ sections = {
 These are options that are available on specific components.
 For example, you have option on `diagnostics` component to
 specify what your diagnostic sources will be.
+
+#### altfile component options
+
+```lua
+sections = {
+  lualine_a = {
+    {
+      'altfile',
+      file_status = true,      -- Displays file status (readonly status, modified status)
+      newfile_status = false,  -- Display new file status (new file means no write after created)
+      path = 0,                -- 0: Just the filename
+                               -- 1: Relative path
+                               -- 2: Absolute path
+                               -- 3: Absolute path, with tilde as the home directory
+                               -- 4: Filename and parent dir, with tilde as the home directory
+
+      shorting_target = 40,    -- Shortens path to leave 40 spaces in the window
+                               -- for other components. (terrible name, any suggestions?)
+      symbols = {
+        separator = '^',       -- Text to prefix/suffix alt file to differentiate from filename.
+        modified = '[+]',      -- Text to show when the file is modified.
+        readonly = '[-]',      -- Text to show when the file is non-modifiable or readonly.
+        unnamed = '[No Name]', -- Text to show for unnamed buffers.
+        newfile = '[New]',     -- Text to show for newly created file before first write
+      }
+    }
+  }
+}
+```
 
 #### buffers component options
 
@@ -848,7 +878,7 @@ lualine also provides 2 components, buffers and tabs, that you can use to get a 
 tabline = {
   lualine_a = {'buffers'},
   lualine_b = {'branch'},
-  lualine_c = {'filename'},
+  lualine_c = {'filename', 'altfile'},
   lualine_x = {},
   lualine_y = {},
   lualine_z = {'tabs'}
@@ -865,7 +895,7 @@ winbar = {
   lualine_a = {},
   lualine_b = {},
   lualine_c = {'filename'},
-  lualine_x = {},
+  lualine_x = {'altfile'},
   lualine_y = {},
   lualine_z = {}
 }
